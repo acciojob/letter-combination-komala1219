@@ -1,7 +1,5 @@
-function letterCombinations(input_digit) {
-  //Complete the function
-
-	const mapping = {
+function letterCombinations(digits) {
+  const mapping = {
     '0': '0',
     '1': '1',
     '2': 'abc',
@@ -13,27 +11,20 @@ function letterCombinations(input_digit) {
     '8': 'tuv',
     '9': 'wxyz'
   };
-
-  function backtrack(combination, next_digits, output) {
-    if (next_digits.length === 0) {
-      output.push(combination);
-    } else {
-      const digit = next_digits[0];
-      const letters = mapping[digit];
-      for (let i = 0; i < letters.length; i++) {
-        const letter = letters[i];
-        backtrack(combination + letter, next_digits.slice(1), output);
+  const combinations = [''];
+  
+  for (let i = 0; i < digits.length; i++) {
+    const letters = mapping[digits[i]];
+    const newCombinations = [];
+    for (let j = 0; j < letters.length; j++) {
+      for (let k = 0; k < combinations.length; k++) {
+        newCombinations.push(combinations[k] + letters[j]);
       }
     }
+    combinations.splice(0, combinations.length, ...newCombinations);
   }
-
-  if (input_digit.length === 0) {
-    return [];
-  } else {
-    const output = [];
-    backtrack('', input_digit, output);
-    return output.sort();
-  }
+  
+  return combinations;
 }
 
 module.exports = letterCombinations;
